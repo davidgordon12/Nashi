@@ -5,7 +5,7 @@ AS = i686-elf-as
 CFLAGS = -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 LDFLAGS = -T linker.ld -lgcc -ffreestanding -O2 -nostdlib 
 
-OBJECTS = kernel/kernel.o kernel/boot.o
+OBJECTS = kernel/kernel.o kernel/boot.o kernel/vga.o
 
 all: qemu
 
