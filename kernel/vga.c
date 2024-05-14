@@ -1,4 +1,5 @@
 #include "vga.h"
+#include "io.h"
 
 uint16_t* buffer = (uint16_t*)0xB8000;
 
@@ -16,6 +17,16 @@ void vga_putch(char c) {
 	buffer[row * VGA_WIDTH + column] = c | color << 8;
 }
 
+void update_cursor(int x, int y)
+{
+	uint16_t pos = y * VGA_WIDTH + x;
+ 
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
 void vga_write(char* string) {
 
 	size_t i = 0;
@@ -31,4 +42,7 @@ void vga_write(char* string) {
 		}
 		i++;
 	}
+
+	update_cursor(column, row);
 }
+
