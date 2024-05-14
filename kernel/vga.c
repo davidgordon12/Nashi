@@ -1,5 +1,5 @@
-#include "vga.h"
-#include "io.h"
+#include <kernel/vga.h>
+#include <kernel/io.h>
 
 uint16_t* buffer = (uint16_t*)0xB8000;
 
