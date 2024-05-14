@@ -3,8 +3,7 @@
 
 uint16_t* buffer = (uint16_t*)0xB8000;
 
-size_t row = 0;
-size_t column = 0;
+size_t row = 0; size_t column = 0;
 
 const uint8_t color = (VGA_COLOR_WHITE | VGA_COLOR_BLUE << 4);
 
@@ -28,7 +27,6 @@ void update_cursor(int x, int y)
 }
 
 void vga_write(char* string) {
-
 	size_t i = 0;
 	while(string[i] != '\0')
 	{
