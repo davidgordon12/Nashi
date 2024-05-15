@@ -3,5 +3,5 @@
 
 void kernel_main() {
     vga_init();
-    printf("%d", 15);
+    printf("VGA Driver Initialized..!");
 }

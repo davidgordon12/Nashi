@@ -3,6 +3,6 @@
  
 int putchar(int ic) {
 	char c = (char) ic;
-	vga_write(&c);
+	vga_putch(c);
 	return ic;
 }

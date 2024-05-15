@@ -12,8 +12,15 @@ void vga_init() {
 		buffer[i] = ' ' | color << 8;
 }
 
-void vga_putch(char c) {
-	buffer[row * VGA_WIDTH + column] = c | color << 8;
+void vga_scroll() {
+	for(uint16_t i = 0; i < 24*80; ++i) {
+		buffer[i] = buffer[i+80];
+	}
+	for(uint16_t i = 24*80; i < 25*80; ++i) {
+		buffer[i] = ' ' | color << 8;
+	}
+	row = 24;
+	column = 0;
 }
 
 void update_cursor(int x, int y)
@@ -26,21 +33,16 @@ void update_cursor(int x, int y)
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
-void vga_write(char* string) {
-	size_t i = 0;
-	while(string[i] != '\0')
-	{
-		if(string[i] == '\n' || column > VGA_WIDTH) {
-			row++;
-			column = 0;
-		}
-		else {
-			vga_putch(string[i]);
-			column++;
-		}
-		i++;
+void vga_putch(char c) {
+	if(row >= 25) {
+		vga_scroll();
 	}
-
+	if(c == '\n') {
+		row++;
+		column = 0;
+	} else {
+		buffer[row * VGA_WIDTH + column] = c | color << 8;
+		column++;
+	}
 	update_cursor(column, row);
 }
-

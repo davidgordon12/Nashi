@@ -28,6 +28,6 @@ static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
 
 void vga_init();
-void vga_write(char* string);
+void vga_putch(char c);
 
 #endif
