@@ -12,7 +12,17 @@ libc/string/memmove.o \
 libc/string/memset.o \
 libc/string/strlen.o \
 
-OBJS = kernel/kernel.o kernel/boot.o kernel/vga.o kernel/io.o
+OBJS=\
+kernel/kernel.o \
+kernel/boot.o \
+kernel/vga.o \
+kernel/io.o \
+kernel/gdt.o \
+kernel/gdt_s.o \
+kernel/idt.o \
+kernel/idt_s.o \
+kernel/isr.o \
+kernel/isr_s.o \
 
 CCFLAGS = -c -Iinclude -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 ASFLAGS = -f elf
