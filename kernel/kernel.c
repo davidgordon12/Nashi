@@ -1,3 +1,4 @@
+#include "kernel/shell.h"
 #include <stdio.h>
 #include <kernel/keyboard.h>
 #include <kernel/pic.h>
@@ -7,11 +8,16 @@
 
 void kernel_main() {
     vga_init();
-    printf("VGA Driver Initialized..!\n");
+    printf("[Nashi]: VGA Driver Initialized..!\n");
     gdt_init();
-    printf("GDT Initialized..!\n");
+    printf("[Nashi]: GDT Initialized..!\n");
     idt_init();
-    printf("IDT Initialized..!\n");
-    init_pic(50);
-    printf("PIC Initialized..!\n");
+    printf("[Nashi]: IDT Initialized..!\n");
+    asm volatile ("int $0x03");
+    pic_init(20);
+    printf("[Nashi]: PIC Initialized..!\n");
+    keyboard_init();
+    printf("[Nashi]: Keyboard Driver Initialized..!\n");
+    enable_interrupts();
+    shell();
 }

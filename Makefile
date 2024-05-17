@@ -25,6 +25,7 @@ kernel/isr.o \
 kernel/isr_s.o \
 kernel/pic.o \
 kernel/keyboard.o \
+kernel/shell.o \
 
 CCFLAGS = -c -Iinclude -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 ASFLAGS = -f elf
@@ -37,15 +38,6 @@ kernel: $(OBJS) $(LIBC)
 
 %.o: %.c
 	$(CC) $(CCFLAGS) $< -o $@
-
-%.o: %.asm
-	$(AS) $(ASFLAGS) $< -o $@
-
-debug: $(OBJS) $(LIBC)
-	$(CC) $(LDFLAGS)
-
-%.o: %.c
-	$(CC) -g $(CCFLAGS) $< -o $@
 
 %.o: %.asm
 	$(AS) $(ASFLAGS) $< -o $@

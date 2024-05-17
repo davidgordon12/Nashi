@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void init_pic(uint32_t freq);
+void pic_init(uint32_t freq);
 void send_eoi(uint8_t irq);
 void remap_pic();
 

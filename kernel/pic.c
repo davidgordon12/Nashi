@@ -1,7 +1,6 @@
 #include <kernel/pic.h>
 #include <kernel/io.h>
 #include <kernel/isr.h>
-#include <stdio.h>
 
 #define PIC1		0x20		/* IO base address for master PIC */
 #define PIC2		0xA0		/* IO base address for slave PIC */
@@ -15,10 +14,9 @@ uint32_t tick = 0;
 
 void pic_callback(struct registers* regs) {
 	tick++;
-	printf("Tick: %d\n", tick);
 }
 
-void init_pic(uint32_t freq) {
+void pic_init(uint32_t freq) {
 	// Register pic_callback
 	register_interrupt_handler(IRQ0, &pic_callback);
 
@@ -37,13 +35,6 @@ void init_pic(uint32_t freq) {
 	// Send the frequency divisor.
 	outb(0x40, l);
 	outb(0x40, h);;
-}
-
-void send_eoi(uint8_t irq) {
-	if(irq >= 8)
-		outb(PIC2_COMMAND, PIC_EOI);
-
-	outb(PIC1_COMMAND, PIC_EOI); 
 }
 
 void remap_pic() {

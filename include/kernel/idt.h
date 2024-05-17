@@ -18,6 +18,14 @@ struct idt_ptr {
 
 void idt_init();
 
+static inline void disable_interrupts() {
+	asm volatile ("cli");
+}
+
+static inline void enable_interrupts() {
+	asm volatile ("sti");
+}
+
 extern void isr0();
 extern void isr1();
 extern void isr2();

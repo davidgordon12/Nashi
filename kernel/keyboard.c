@@ -1,8 +1,7 @@
 #include <kernel/keyboard.h>
 #include <kernel/io.h>
-#include <stdio.h>
 
-struct keymap us = {
+keymap_t us = {
    //normal keys
    {
       /* first row - indices 0 to 14 */
@@ -104,7 +103,7 @@ struct keymap us = {
    0
 };
 
-struct keymap gb = {
+keymap_t gb = {
    // normal keys
    {
       /* first row - indices 0 to 14 */
@@ -208,14 +207,14 @@ struct keymap gb = {
 };
 
 // Here begins the functionality
-struct keymap *current_layout;
+keymap_t *current_layout;
 
 // Indices into the circular buffer for the keyboard data.
 uint32_t keyboard_buffer_start, keyboard_buffer_end;
 // Circular buffer giving content captured from keyboard.
 char keyboard_buffer[256];
 
-void init_keyboard_driver()
+void keyboard_init()
 {
    register_interrupt_handler(IRQ1, &keyboard_handler);
    switch_layout(&us);
@@ -236,13 +235,14 @@ char keyboard_getchar()
    else return '\0';
 }
 
-void switch_layout(struct keymap* layout)
+void switch_layout(keymap_t *layout)
 {
    current_layout = layout;
 }
 
-void keyboard_handler(struct registers* regs)
+void keyboard_handler(struct registers *regs)
 {
+
    uint8_t scancode = inb(0x60);
 
    // Has the key been released? Check bit no. 7
@@ -281,11 +281,9 @@ void keyboard_handler(struct registers* regs)
       // if it was a non-control key, just print it upper or lowercase version
       // depending on the status of the control keys
       uint8_t *scancodes = current_layout->scancodes;
-      if ((current_layout->controls & (LSHIFT | RSHIFT | CAPSLOCK)) 
-	 && !(current_layout->controls & CONTROL)) {
-	    scancodes = current_layout->shift_scancodes;
-	    printf("%s", current_layout->scancodes);
-      }
+      if ((current_layout->controls & (LSHIFT | RSHIFT | CAPSLOCK))
+	 && !(current_layout->controls & CONTROL))
+	 scancodes = current_layout->shift_scancodes;
 
       // Avoid buffer overruns if possible.
       if (keyboard_buffer_end != keyboard_buffer_start-1)
