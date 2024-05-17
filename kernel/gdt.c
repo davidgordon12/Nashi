@@ -1,7 +1,7 @@
 #include <kernel/gdt.h>
 #include <stdint.h>
 
-extern void gdt_flush(uint32_t gdtr);
+extern void gdt_flush(uint32_t);
 
 struct gdt_entry gdt_entries[5];
 struct gdt_ptr gdtr;
