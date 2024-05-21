@@ -1,5 +1,5 @@
-#include "kernel/shell.h"
 #include <stdio.h>
+#include <kernel/shell.h>
 #include <kernel/keyboard.h>
 #include <kernel/pic.h>
 #include <kernel/idt.h>
@@ -13,7 +13,6 @@ void kernel_main() {
     printf("[Nashi]: GDT Initialized..!\n");
     idt_init();
     printf("[Nashi]: IDT Initialized..!\n");
-    asm volatile ("int $0x03");
     pic_init(20);
     printf("[Nashi]: PIC Initialized..!\n");
     keyboard_init();
