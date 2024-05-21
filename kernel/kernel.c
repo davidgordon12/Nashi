@@ -12,13 +12,11 @@ void kernel_main() {
     gdt_init();
     printf("[Nashi]: GDT Initialized..!\n");
     idt_init();
-    asm volatile ("int $0x03");
     printf("[Nashi]: IDT Initialized..!\n");
     pic_init(20);
     printf("[Nashi]: PIC Initialized..!\n");
     keyboard_init();
     printf("[Nashi]: Keyboard Driver Initialized..!\n");
     enable_interrupts();
-    #define shell_mode
     shell();
 }
