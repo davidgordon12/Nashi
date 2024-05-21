@@ -20,18 +20,18 @@
 #define IRQ14 46
 #define IRQ15 47
 
-struct registers {
+typedef struct registers {
    uint32_t ds;                  // Data segment selector
    uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
    uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
    uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
-};
+} registers_t;
 
 // An interrupt handler. It is a pointer to a function which takes a pointer 
 // to a structure containing register values.
-typedef void (*interrupt_handler)(struct registers*);
+typedef void (*interrupt_handler_t)(registers_t*);
 
 // Allows us to register an interrupt handler.
-void register_interrupt_handler (uint8_t n, interrupt_handler h);
+void register_interrupt_handler (uint8_t n, interrupt_handler_t h);
 
 #endif // !_ISR_H

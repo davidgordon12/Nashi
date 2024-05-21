@@ -1,5 +1,6 @@
 #include <kernel/vga.h>
 #include <kernel/io.h>
+#include <stdio.h>
 
 uint16_t* buffer = (uint16_t*)0xB8000;
 
@@ -8,7 +9,7 @@ size_t row = 0; size_t column = 0;
 const uint8_t color = (VGA_COLOR_WHITE | VGA_COLOR_BLUE << 4);
 
 void vga_init() {
-	for(int i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++)
+	for(uint16_t i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++)
 		buffer[i] = ' ' | color << 8;
 }
 
@@ -34,15 +35,26 @@ void update_cursor(int x, int y)
 }
 
 void vga_putch(char c) {
+	if(column >= 80) {
+		row++;
+		column = 0;
+	}
+
 	if(row >= 25) {
 		vga_scroll();
 	}
+
 	if(c == '\n') {
 		row++;
 		column = 0;
+
+		if(row >= 25) {
+			vga_scroll();
+		}
 	} else {
 		buffer[row * VGA_WIDTH + column] = c | color << 8;
 		column++;
 	}
+
 	update_cursor(column, row);
 }
