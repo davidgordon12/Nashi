@@ -44,7 +44,7 @@ kernel: $(OBJS) $(LIBC)
 
 boot:
 	cp nashi.bin isodir/boot
-	grub2-mkrescue -o nashi.iso isodir
+	grub-mkrescue -o nashi.iso isodir
 	qemu-system-i386 -cdrom nashi.iso
 
 clean:
