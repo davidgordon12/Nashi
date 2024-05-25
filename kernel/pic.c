@@ -10,7 +10,13 @@
 #define PIC2_DATA	(PIC2+1)
 #define PIC_EOI		0x20		/* End-of-interrupt command code */
 
-uint32_t tick = 0;
+volatile uint32_t tick = 0;
+
+void timer_wait(uint16_t tick_count) {
+	uint32_t eticks = tick + tick_count;
+	while(tick < eticks) {
+	}
+}
 
 void pic_callback(struct registers* regs) {
 	tick++;

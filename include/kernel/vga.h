@@ -29,5 +29,6 @@ static const uint8_t VGA_HEIGHT = 25;
 
 void vga_init();
 void vga_putch(char c);
+void vga_delete();
 
 #endif
