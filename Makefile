@@ -26,6 +26,7 @@ kernel/isr_s.o \
 kernel/pic.o \
 kernel/keyboard.o \
 kernel/shell.o \
+kernel/kmalloc.o \
 
 CCFLAGS = -c -Iinclude -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 ASFLAGS = -f elf
